@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, FSCalendarCellState) {
     FSCalendarCellStateDisabled    = 1 << 2,
     FSCalendarCellStateToday       = 1 << 3,
     FSCalendarCellStateWeekend     = 1 << 4,
+    FSCalendarCellStateHighlighted = 1 << 5,
     FSCalendarCellStateTodaySelected = FSCalendarCellStateToday|FSCalendarCellStateSelected
 };
 

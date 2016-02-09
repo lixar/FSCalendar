@@ -52,6 +52,7 @@
         
         shapeLayer = [CAShapeLayer layer];
         shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
+        shapeLayer.fillColor = [UIColor clearColor].CGColor;
         shapeLayer.hidden = YES;
         [self.contentView.layer insertSublayer:shapeLayer below:_titleLabel.layer];
         self.backgroundLayer = shapeLayer;
@@ -103,6 +104,7 @@
     [super prepareForReuse];
     [CATransaction setDisableActions:YES];
     _backgroundLayer.hidden = YES;
+    _backgroundLayer.fillColor = [UIColor clearColor].CGColor;
 }
 
 #pragma mark - Public
@@ -179,7 +181,7 @@
     }
     
     UIColor *borderColor = self.colorForCellBorder;
-    BOOL shouldHiddenBackgroundLayer = !self.selected && !self.dateIsToday && !self.dateIsSelected && !borderColor;
+    BOOL shouldHiddenBackgroundLayer = !self.selected && !self.highlighted && !self.dateIsToday && !self.dateIsSelected && !borderColor;
     
     if (_backgroundLayer.hidden != shouldHiddenBackgroundLayer) {
         _backgroundLayer.hidden = shouldHiddenBackgroundLayer;
@@ -238,6 +240,9 @@
     if (self.isWeekend && [[dictionary allKeys] containsObject:@(FSCalendarCellStateWeekend)]) {
         return dictionary[@(FSCalendarCellStateWeekend)];
     }
+    if (self.isHighlighted) {
+        return dictionary[@(FSCalendarCellStateHighlighted)];
+    }
     return dictionary[@(FSCalendarCellStateNormal)];
 }
 
@@ -290,12 +295,23 @@
     _imageView.hidden = !_image;
 }
 
+- (void)setHighlighted:(BOOL)highlighted
+{
+    [super setHighlighted:highlighted];
+    if (!self.isSelected && !self.dateIsPlaceholder) {
+        [self performSelecting];
+    }
+}
+
 #pragma mark - Properties
 
 - (UIColor *)colorForBackgroundLayer
 {
     if (self.dateIsSelected || self.isSelected) {
         return self.preferedSelectionColor ?: [self colorForCurrentStateInDictionary:_appearance.backgroundColors];
+    }
+    if (self.isHighlighted) {
+        return self.preferedHighlightColor ?: [self colorForCurrentStateInDictionary:_appearance.backgroundColors];
     }
     return [self colorForCurrentStateInDictionary:_appearance.backgroundColors];
 }
