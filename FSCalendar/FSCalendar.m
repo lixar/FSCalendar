@@ -747,6 +747,13 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 
 - (void)setToday:(NSDate *)today
 {
+    if (!today) {
+        _today = nil;
+        [_collectionView.visibleCells makeObjectsPerformSelector:@selector(setDateIsToday:) withObject:@NO];
+        [_collectionView.visibleCells makeObjectsPerformSelector:@selector(setNeedsLayout)];
+        return;
+    }
+    
     if ([self daysFromDate:_minimumDate toDate:today] < 0) {
         today = _minimumDate.copy;
     } else if ([self daysFromDate:_maximumDate toDate:today] > 0) {
@@ -1489,7 +1496,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     cell.numberOfEvents = [self numberOfEventsForDate:cell.date];
     cell.subtitle  = [self subtitleForDate:cell.date];
     cell.dateIsSelected = [_selectedDates containsObject:cell.date];
-    cell.dateIsToday = [self date:cell.date sharesSameDayWithDate:_today];
+    cell.dateIsToday = _today && [self date:cell.date sharesSameDayWithDate:_today];
     switch (_scope) {
         case FSCalendarScopeMonth: {
             NSDate *firstPage = [self beginingOfMonthOfDate:_minimumDate];
