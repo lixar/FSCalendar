@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 - (NSDate *)maximumDateForCalendar;
 
 - (UIColor *)preferedSelectionColorForDate:(NSDate *)date;
+- (UIColor *)preferedHighlightColorForDate:(NSDate *)date;
 - (UIColor *)preferedTitleDefaultColorForDate:(NSDate *)date;
 - (UIColor *)preferedTitleSelectionColorForDate:(NSDate *)date;
 - (UIColor *)preferedSubtitleDefaultColorForDate:(NSDate *)date;
@@ -1468,6 +1469,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 - (void)invalidateAppearanceForCell:(FSCalendarCell *)cell
 {
     cell.preferedSelectionColor = [self preferedSelectionColorForDate:cell.date];
+    cell.preferedHighlightColor = [self preferedHighlightColorForDate:cell.date];
     cell.preferedTitleDefaultColor = [self preferedTitleDefaultColorForDate:cell.date];
     cell.preferedTitleSelectionColor = [self preferedTitleSelectionColorForDate:cell.date];
     if (cell.subtitle) {
@@ -1671,6 +1673,15 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 {
     if (self.delegateAppearance && [self.delegateAppearance respondsToSelector:@selector(calendar:appearance:selectionColorForDate:)]) {
         UIColor *color = [self.delegateAppearance calendar:self appearance:self.appearance selectionColorForDate:date];
+        return color;
+    }
+    return nil;
+}
+
+- (UIColor *)preferedHighlightColorForDate:(NSDate *)date
+{
+    if (self.delegateAppearance && [self.delegateAppearance respondsToSelector:@selector(calendar:appearance:highlightColorForDate:)]) {
+        UIColor *color = [self.delegateAppearance calendar:self appearance:self.appearance highlightColorForDate:date];
         return color;
     }
     return nil;
