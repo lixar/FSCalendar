@@ -57,7 +57,6 @@
 
 - (CGSize)sizeThatFits:(CGSize)size scope:(FSCalendarScope)scope;
 
-- (void)_setCurrentPage:(NSDate *)currentPage;
 - (NSDate *)findMonthForWeek:(NSDate *)week withRow:(NSInteger *)row;
 
 @end
