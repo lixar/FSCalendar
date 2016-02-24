@@ -114,6 +114,8 @@
         
         _borderColors = [NSMutableDictionary dictionaryWithCapacity:2];
         
+        _separatorColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.25];
+        
     }
     return self;
 }
@@ -451,6 +453,12 @@
     return _borderColors[@(FSCalendarCellStateSelected)];
 }
 
+- (void)setSeparatorColor:(UIColor *)separatorColor
+{
+    _separatorColor = separatorColor;
+    [self invalidateSeparatorColor];
+}
+
 - (void)setCellShape:(FSCalendarCellShape)cellShape
 {
     if (_cellShape != cellShape) {
@@ -641,6 +649,11 @@
 {
     [_calendar.header.collectionView.visibleCells makeObjectsPerformSelector:_cmd];
     [_calendar.visibleStickyHeaders makeObjectsPerformSelector:_cmd];
+}
+
+- (void)invalidateSeparatorColor
+{
+    [_calendar invalidateSeparatorColor];
 }
 
 @end

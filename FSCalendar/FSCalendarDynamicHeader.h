@@ -44,6 +44,8 @@
 - (void)invalidateWeekdayFont;
 - (void)invalidateWeekdayTextColor;
 
+- (void)invalidateSeparatorColor;
+
 - (void)invalidateHeaders;
 - (void)invalidateWeekdaySymbols;
 - (void)invalidateAppearanceForCell:(FSCalendarCell *)cell;

@@ -71,6 +71,8 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarCaseOptions) {
 @property (strong, nonatomic) UIColor  *borderDefaultColor;
 @property (strong, nonatomic) UIColor  *borderSelectionColor;
 
+@property (strong, nonatomic) UIColor  *separatorColor;
+
 @property (assign, nonatomic) FSCalendarCellShape cellShape;
 @property (assign, nonatomic) FSCalendarCaseOptions caseOptions;
 @property (assign, nonatomic) BOOL adjustsFontSizeToFitContentSize;
