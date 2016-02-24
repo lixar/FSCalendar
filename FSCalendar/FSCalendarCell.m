@@ -298,7 +298,10 @@
 - (void)setHighlighted:(BOOL)highlighted
 {
     [super setHighlighted:highlighted];
-    if (!self.isSelected && !self.dateIsPlaceholder) {
+    
+    BOOL todaySelected = self.dateIsToday && [[self.appearance.backgroundColors allKeys] containsObject:@(FSCalendarCellStateToday)];
+    
+    if (!self.isSelected && !self.dateIsPlaceholder && !todaySelected) {
         [self performSelecting];
     }
 }
